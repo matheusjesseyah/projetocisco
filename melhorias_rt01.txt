@@ -1,0 +1,72 @@
+! ============================================================
+! MELHORIAS E BOAS PRÁTICAS - ROTEADOR CISCO 1941 (RT-01)
+! Autor: Matheus Jade Esseyah
+! Data: 15/10/2025
+! Descrição: Recomendações de segurança, organização e desempenho
+! ============================================================
+
+! 🔒 SEGURANÇA
+
+! 1. Use senhas fortes e únicas
+! Evite senhas simples como 123@senac. Prefira combinações complexas:
+! enable secret C1sc0#2025@Tt!
+! (Strong password recommended)
+
+! 2. Aumente o tamanho da chave RSA
+! crypto key generate rsa general-keys modulus 2048
+! (Use 2048 bits or more for better SSH encryption)
+
+! 3. Permita apenas conexões SSH (sem Telnet)
+! line vty 0 4
+!   transport input ssh
+! (SSH only access)
+
+! 4. Desative serviços desnecessários
+! no ip http server
+! no ip http secure-server
+! (Disable unused web interfaces for security)
+
+! 5. Ajuste o banner de aviso (LGPD)
+! banner motd #
+! Acesso restrito. Este equipamento é monitorado.
+! Uso não autorizado é proibido conforme a LGPD.
+! #
+
+
+! ⚙️ ORGANIZAÇÃO E ESTRUTURA
+
+! 1. Padronize a identação (4 espaços por bloco)
+! Facilita a leitura e manutenção
+
+! 2. Ordem recomendada das seções:
+!   1. Identificação e serviços (hostname, logging, banner)
+!   2. Segurança (usuários, SSH, senhas)
+!   3. Interfaces (endereçamento e roteamento)
+!   4. Serviços adicionais
+!   5. Salvamento e finalização (end, write)
+
+! 3. Adicione metadados no início do arquivo
+! ------------------------------------------------------------
+! Projeto: Configuração Cisco 1941 - Roteador RT-01
+! Autor: Matheus Jade Esseyah
+! Data: 15/10/2025
+! Descrição: Configuração inicial com autenticação SSH e segurança
+! ------------------------------------------------------------
+
+
+! 🧠 OUTRAS RECOMENDAÇÕES
+
+! - Ative logs remotos (Syslog)
+! logging host 192.168.1.10
+
+! - Use NTP para sincronização de horário
+! ntp server 200.160.7.186
+! service timestamps log datetime msec
+
+! - Desative interfaces não utilizadas
+! interface FastEthernet0/1
+!  shutdown
+
+! ============================================================
+! Fim do arquivo - Melhorias RT-01
+! ============================================================

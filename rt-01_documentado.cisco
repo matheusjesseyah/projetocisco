@@ -1,0 +1,108 @@
+!Entrar no modo Exec Priviligiado
+enable
+! Entra no modo EXEC privilegiado
+! Enter privileged EXEC mode
+    clock set 20:20:20 15 October 2025
+! Define a data e hora do roteador manualmente
+! Manually sets router date and time
+    configure terminal
+! Entra no modo de configuração global
+! Enters global configuration mode
+        hostname rt-01
+! Define o nome do dispositivo
+! Sets the device hostname
+        service password-encryption
+! Criptografa senhas em texto simples
+! Encrypts plain text passwords
+        security password min-lenght 8
+! Define o tamanho mínimo de senha
+! Sets minimum password length
+        login block-for 120 attempts 2 within 60
+! Bloqueia tentativas de login após falhas consecutivas
+! Blocks login attempts after consecutive failures
+        service timestamps log datetime msec
+! Adiciona data/hora às mensagens de log
+! Adds date/time to log messages
+        service timestamps debug datetime msec
+        logging buffered  4096
+! Define o tamanho do buffer de log interno
+! Sets the internal log buffer size
+        no ip domain-lookup
+! Impede o roteador de tentar resolver nomes DNS incorretos
+! Prevents router from resolving incorrect DNS names
+        banner motd #Matheus Jade Esseyah LGPD#
+! Define mensagem de aviso (banner MOTD)
+! Sets message of the day banner
+        enable secret 123@senac
+! Define senha criptografada para modo privilegiado
+! Sets encrypted password for privileged mode
+        username senac secret 123@senac
+! Cria usuário local com senha
+! Creates local user with password
+        username tatuape password 123@senac
+! Cria usuário local com senha
+! Creates local user with password
+        username admin Privilege 15 secret 123@senac
+! Cria usuário local com senha
+! Creates local user with password
+        no cdp run
+! Desativa o Cisco Discovery Protocol (CDP)
+! Disables Cisco Discovery Protocol (CDP)
+        no lldp run   
+! Desativa o Link Layer Discovery Protocol (LLDP)
+! Disables Link Layer Discovery Protocol (LLDP)
+        line console 0
+! Entra na configuração da linha de console
+! Enters console line configuration
+            login local
+! Exige autenticação local para acesso
+! Requires local authentication for access
+            password 123@senac
+            logging synchronous
+! Sincroniza mensagens de log com a linha de comando
+! Synchronizes log messages with command line
+            exec-timeout 5 30
+! Define tempo limite de inatividade (minutos segundos)
+! Sets inactivity timeout (minutes seconds)
+            exit
+        !configurando a line VTY
+        line vty 0 4
+! Configura as linhas de acesso remoto (Telnet/SSH)
+! Configures remote access lines (Telnet/SSH)
+            login local 
+! Exige autenticação local para acesso
+! Requires local authentication for access
+            password 123@senac
+            exec-timeout 5 30
+! Define tempo limite de inatividade (minutos segundos)
+! Sets inactivity timeout (minutes seconds)
+            transport input ssh
+! Permite apenas conexões SSH
+! Allows only SSH connections
+            logging synchronous
+! Sincroniza mensagens de log com a linha de comando
+! Synchronizes log messages with command line
+            exit
+        !Configuração do SSH
+        ip domain-name senac.br
+! Define o domínio usado para gerar chaves SSH
+! Sets domain name used to generate SSH keys
+        crypto key generate rsa general-keys modulus 1024
+! Gera chaves RSA para SSH
+! Generates RSA keys for SSH
+        ip ssh version 2
+! Define a versão do SSH (2 é mais segura)
+! Sets SSH version (2 is more secure)
+        ip ssh time-out 60
+! Define tempo limite para login SSH
+! Sets SSH login timeout
+        ip ssh authentication-retries 2
+! Limita o número de tentativas de autenticação SSH
+! Limits SSH authentication attempts
+        end
+! Sai do modo de configuração
+! Exits configuration mode
+    write
+! Salva as configurações atuais na NVRAM
+! Saves current configuration to NVRAM
+
